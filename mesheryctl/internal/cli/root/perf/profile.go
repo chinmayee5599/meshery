@@ -46,20 +46,25 @@ var profileCmd = &cobra.Command{
 	Find more information at: https://docs.meshery.io/reference/references/mesheryctl/perf/profile`,
 	Args: cobra.MinimumNArgs(0),
 	Example: `
-// List performance profiles (maximum 25 profiles)
-mesheryctl perf profile
+	// List performance profiles (maximum 25 profiles)
+	mesheryctl perf profile
 
-// List performance profiles with search (maximum 25 profiles)
-mesheryctl perf profile test 2
+	// List performance profiles with search (maximum 25 profiles)
+	mesheryctl perf profile test 2
 
-// View single performance profile with detailed information
-mesheryctl perf profile test --view
+	// View single performance profile with detailed information
+	mesheryctl perf profile test --view
 `,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		// Check for valid output Format
 		if outputFormatFlag != "" {
 			return display.ValidateOutputFormat(outputFormatFlag)
 		}
+
+		if pageNumber < 1 {
+			return utils.ErrFlagsInvalid(fmt.Errorf("Invalid value for --page '%d'", pageNumber))
+		}
+
 		return nil
 	},
 

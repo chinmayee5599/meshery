@@ -62,14 +62,14 @@ var resultCmd = &cobra.Command{
 	Find more information at: https://docs.meshery.io/reference/references/mesheryctl/perf/result`,
 	Args: cobra.MinimumNArgs(0),
 	Example: `
-// List Test results (maximum 25 results)
-mesheryctl perf result saturday-profile
+	// List Test results (maximum 25 results)
+	mesheryctl perf result saturday-profile
 
-// View other set of performance results with --page (maximum 25 results)
-mesheryctl perf result saturday-profile --page 2
+	// View other set of performance results with --page (maximum 25 results)
+	mesheryctl perf result saturday-profile --page 2
 
-// View single performance result with detailed information
-mesheryctl perf result saturday-profile --view
+	// View single performance result with detailed information
+	mesheryctl perf result saturday-profile --view
 `,
 	Annotations: linkDocPerfResult,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
@@ -77,6 +77,11 @@ mesheryctl perf result saturday-profile --view
 		if outputFormatFlag != "" {
 			return display.ValidateOutputFormat(outputFormatFlag)
 		}
+
+		if pageNumber < 1 {
+			return utils.ErrFlagsInvalid(fmt.Errorf("Invalid value for --page '%d'", pageNumber))
+		}
+
 		return nil
 	},
 
@@ -281,8 +286,8 @@ func performanceResultsToStringArrays(results []models.PerformanceResult) ([][]s
 				P90:     P90,
 				P99:     P99,
 			},
-			StartTime:     result.TestStartTime,
-			MesheryID:     &mesheryid,
+			StartTime:      result.TestStartTime,
+			MesheryID:      &mesheryid,
 			LoadGenerator: loadGenerator,
 		}
 

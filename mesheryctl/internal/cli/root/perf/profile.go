@@ -56,13 +56,14 @@ var profileCmd = &cobra.Command{
 	mesheryctl perf profile test --view
 `,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
+		// Check for valid page number
+		if pageNumber < 1 {
+			return utils.ErrFlagsInvalid(fmt.Errorf("Invalid value for --page '%d'", pageNumber))
+		}
+
 		// Check for valid output Format
 		if outputFormatFlag != "" {
 			return display.ValidateOutputFormat(outputFormatFlag)
-		}
-
-		if pageNumber < 1 {
-			return utils.ErrFlagsInvalid(fmt.Errorf("Invalid value for --page '%d'", pageNumber))
 		}
 
 		return nil

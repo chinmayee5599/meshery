@@ -73,13 +73,13 @@ var resultCmd = &cobra.Command{
 `,
 	Annotations: linkDocPerfResult,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
+		if pageNumber < 1 {
+			return utils.ErrFlagsInvalid(fmt.Errorf("Invalid value for --page '%d'", pageNumber))
+		}
+
 		// Check for valid output Format
 		if outputFormatFlag != "" {
 			return display.ValidateOutputFormat(outputFormatFlag)
-		}
-
-		if pageNumber < 1 {
-			return utils.ErrFlagsInvalid(fmt.Errorf("Invalid value for --page '%d'", pageNumber))
 		}
 
 		return nil
@@ -286,8 +286,8 @@ func performanceResultsToStringArrays(results []models.PerformanceResult) ([][]s
 				P90:     P90,
 				P99:     P99,
 			},
-			StartTime:      result.TestStartTime,
-			MesheryID:      &mesheryid,
+			StartTime:     result.TestStartTime,
+			MesheryID:     &mesheryid,
 			LoadGenerator: loadGenerator,
 		}
 

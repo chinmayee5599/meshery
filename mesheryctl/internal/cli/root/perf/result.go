@@ -61,7 +61,7 @@ var resultCmd = &cobra.Command{
 	Long: `List all the available test results of a performance profile.
 	Find more information at: https://docs.meshery.io/reference/references/mesheryctl/perf/result`,
 	Args: cobra.MinimumNArgs(0),
-	Example: `
+	: `
 	// List Test results (maximum 25 results)
 	mesheryctl perf result saturday-profile
 
@@ -101,7 +101,7 @@ var resultCmd = &cobra.Command{
 			return ErrNoProfileName()
 		}
 
-		// handles spaces in args if quoted args passed
+		Example// handles spaces in args if quoted args passed
 		for i, arg := range args {
 			args[i] = strings.ReplaceAll(arg, " ", "%20")
 		}
